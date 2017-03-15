@@ -1,0 +1,1408 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>订单</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/订单/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="resources/scripts/prototypePre.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/prototypePost.js"></script>
+    <script src="files/订单/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1213" class="ax_default box_11">
+        <img id="u1213_img" class="img " src="images/订单/u1213.png"/>
+        <!-- Unnamed () -->
+        <div id="u1214" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">某一子订单的退款状态机</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1215" class="ax_default box_11">
+        <img id="u1215_img" class="img " src="images/订单/u1215.png"/>
+        <!-- Unnamed () -->
+        <div id="u1216" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">某一子订单的退货状态机</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1217" class="ax_default _文本段落">
+        <img id="u1217_img" class="img " src="images/订单/u1217.png"/>
+        <!-- Unnamed () -->
+        <div id="u1218" class="text">
+          <p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单状态有以下</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">6</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">种</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">待付款、待发货、已发货、已完成、已关闭、退款中</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;"><br></span></p><p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单的最终状态如何判断</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">订单的最终状态只有2种：已完成、已关闭。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">实付金额&gt;0，最终状态是已完成。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">实付金额=0，最终状态是已关闭。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;"><br></span></p><p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单支付金额不为</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">0</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">0元订单从交易流程上讲是没问题，但是没有交易流水产生。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">和订单的主流程是有一定差异的，需要考虑异常情况。比如退换货的时候如何处理，查询流水的时候查不到。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">请使用0.01元代替。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;"><br></span></p><p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">trade</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">和</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">order</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">的关系和区别</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">trade称为父订单，order称为子订单，或者说trade是一笔交易单，子订单是每笔交易中的商品明细单，trade与order可以是一对多的关系，trade是由使用购物车生成。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">当一笔交易只有一个子订单，那么tid=oid，这个时候主要看trade结构体里面的内容,当一笔交易有多笔子订单(类似于购物车购买方式)，那么tid=oid，这个时候主要看order结构体里面的内容。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;"><br></span></p><p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单交易号、订单号、支付宝</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">&amp;</span><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">微信交易号的关系</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">交易号为tid，子订单号为oid,支付宝交易号为alipay_no,一笔交易可能包含多笔子订单，这就是一个购物车中的多个商品，一笔交易对应一个交易号，一种商品对应一笔子订单。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;"><br></span></p><p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">其他</span><span style="font-family:'ArialMT', 'Arial';font-weight:400;"></span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">如果订单需要退款，必须原路返回(央行规定)</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">订单状态变成已发货之后，不能再取消订单。</span></p><p><span style="font-family:'ArialMT', 'Arial';font-weight:400;">每笔订单至少包含1件商品。</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1219" class="ax_default connector">
+        <img id="u1219_seg0" class="img " src="images/订单/u1219_seg0.png" alt="u1219_seg0"/>
+        <img id="u1219_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1219_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1220" class="text">
+          <p><span>发送到网仓</span></p><p><span>或者</span><span></span></p><p><span>发送到手工单</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1221" class="ax_default connector">
+        <img id="u1221_seg0" class="img " src="images/订单/u1221_seg0.png" alt="u1221_seg0"/>
+        <img id="u1221_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1221_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1222" class="text">
+          <p><span>买家下单</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1223" class="ax_default connector">
+        <img id="u1223_seg0" class="img " src="images/订单/u1223_seg0.png" alt="u1223_seg0"/>
+        <img id="u1223_seg1" class="img " src="images/订单/u1223_seg1.png" alt="u1223_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1224" class="text">
+          <p><span>网仓出库成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1225" class="ax_default connector">
+        <img id="u1225_seg0" class="img " src="images/订单/u1225_seg0.png" alt="u1225_seg0"/>
+        <img id="u1225_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1225_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1226" class="text">
+          <p><span>买家确认收货</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1227" class="ax_default connector">
+        <img id="u1227_seg0" class="img " src="images/注册/u116_seg0.png" alt="u1227_seg0"/>
+        <img id="u1227_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1227_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1228" class="text">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1229" class="ax_default connector">
+        <img id="u1229_seg0" class="img " src="images/注册/u116_seg0.png" alt="u1229_seg0"/>
+        <img id="u1229_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1229_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1230" class="text">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1231" class="ax_default connector">
+        <img id="u1231_seg0" class="img " src="images/订单/u1231_seg0.png" alt="u1231_seg0"/>
+        <img id="u1231_seg1" class="img " src="images/订单/u1231_seg1.png" alt="u1231_seg1"/>
+        <img id="u1231_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1231_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1232" class="text">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1233" class="ax_default connector">
+        <img id="u1233_seg0" class="img " src="images/订单/u1231_seg0.png" alt="u1233_seg0"/>
+        <img id="u1233_seg1" class="img " src="images/订单/u1231_seg1.png" alt="u1233_seg1"/>
+        <img id="u1233_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1233_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1234" class="text">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- 正在退货 (菱形) -->
+      <div id="u1235" class="ax_default flow_shape" data-label="正在退货">
+        <img id="u1235_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1236" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退货是否成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1237" class="ax_default connector">
+        <img id="u1237_seg0" class="img " src="images/推送/u507_seg0.png" alt="u1237_seg0"/>
+        <img id="u1237_seg1" class="img " src="images/订单/u1237_seg1.png" alt="u1237_seg1"/>
+        <img id="u1237_seg2" class="img " src="images/订单/u1237_seg2.png" alt="u1237_seg2"/>
+        <img id="u1237_seg3" class="img " src="images/注册/u116_seg1.png" alt="u1237_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1238" class="text">
+          <p><span>系统超过</span><span>72</span><span>小时</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1239" class="ax_default connector">
+        <img id="u1239_seg0" class="img " src="images/订单/u1239_seg0.png" alt="u1239_seg0"/>
+        <img id="u1239_seg1" class="img " src="images/订单/u1239_seg1.png" alt="u1239_seg1"/>
+        <img id="u1239_seg2" class="img " src="images/订单/u1239_seg2.png" alt="u1239_seg2"/>
+        <img id="u1239_seg3" class="img " src="images/订单/u1239_seg3.png" alt="u1239_seg3"/>
+        <img id="u1239_seg4" class="img " src="images/打开首页/u399_seg2.png" alt="u1239_seg4"/>
+        <img id="u1239_seg5" class="img " src="images/打开首页/u399_seg3.png" alt="u1239_seg5"/>
+        <!-- Unnamed () -->
+        <div id="u1240" class="text">
+          <p><span>系统超过</span><span>15</span><span>天</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1241" class="ax_default connector">
+        <img id="u1241_seg0" class="img " src="images/订单/u1241_seg0.png" alt="u1241_seg0"/>
+        <img id="u1241_seg1" class="img " src="images/订单/u1241_seg1.png" alt="u1241_seg1"/>
+        <img id="u1241_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1241_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1242" class="text">
+          <p><span>买家申请退款</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (菱形) -->
+      <div id="u1243" class="ax_default flow_shape">
+        <img id="u1243_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1244" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退款是否成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1245" class="ax_default connector">
+        <img id="u1245_seg0" class="img " src="images/打开首页/u355_seg0.png" alt="u1245_seg0"/>
+        <img id="u1245_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1245_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1246" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1247" class="ax_default connector">
+        <img id="u1247_seg0" class="img " src="images/订单/u1247_seg0.png" alt="u1247_seg0"/>
+        <img id="u1247_seg1" class="img " src="images/订单/u1247_seg1.png" alt="u1247_seg1"/>
+        <img id="u1247_seg2" class="img " src="images/商品/u929_seg1.png" alt="u1247_seg2"/>
+        <img id="u1247_seg3" class="img " src="images/商品/u929_seg2.png" alt="u1247_seg3"/>
+        <img id="u1247_seg4" class="img " src="images/商品/u929_seg3.png" alt="u1247_seg4"/>
+        <!-- Unnamed () -->
+        <div id="u1248" class="text">
+          <p><span>从网仓撤回</span></p><p><span>或者</span><span></span></p><p><span>从手工单撤回</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1249" class="ax_default flow_shape">
+        <img id="u1249_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1250" class="text">
+          <p><span>待付款</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1251" class="ax_default flow_shape">
+        <img id="u1251_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1252" class="text">
+          <p><span>待发货</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1253" class="ax_default flow_shape">
+        <img id="u1253_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1254" class="text">
+          <p><span>已确认</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1255" class="ax_default flow_shape">
+        <img id="u1255_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1256" class="text">
+          <p><span>已发货</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1257" class="ax_default flow_shape">
+        <img id="u1257_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1258" class="text">
+          <p><span>已完成</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1259" class="ax_default flow_shape">
+        <img id="u1259_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1260" class="text">
+          <p><span>已关闭</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1261" class="ax_default flow_shape">
+        <img id="u1261_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1262" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退货失败</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1263" class="ax_default flow_shape">
+        <img id="u1263_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1264" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退款成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1265" class="ax_default label">
+        <img id="u1265_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1266" class="text">
+          <p><span>=</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) -->
+      <div id="u1267" class="ax_default flow_shape" data-label="订单">
+        <img id="u1267_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1268" class="text">
+          <p><span>父订单</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) [footnote] -->
+      <div id="u1267_ann" class="annotation"></div>
+
+      <!-- 子订单 (矩形) -->
+      <div id="u1269" class="ax_default flow_shape" data-label="子订单">
+        <img id="u1269_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1270" class="text">
+          <p><span>子订单1</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1271" class="ax_default flow_shape">
+        <img id="u1271_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1272" class="text">
+          <p><span>子订单2</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1273" class="ax_default flow_shape">
+        <img id="u1273_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1274" class="text">
+          <p><span>子订单3</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1275" class="ax_default label">
+        <img id="u1275_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1276" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1277" class="ax_default label">
+        <img id="u1277_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1278" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1279" class="ax_default label">
+        <img id="u1279_img" class="img " src="images/商品/u1039.png"/>
+        <!-- Unnamed () -->
+        <div id="u1280" class="text">
+          <p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单的逻辑拆分</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1281" class="ax_default label">
+        <img id="u1281_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1282" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1283" class="ax_default flow_shape">
+        <img id="u1283_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1284" class="text">
+          <p><span>子订单4</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1285" class="ax_default label">
+        <img id="u1285_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1286" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1287" class="ax_default flow_shape">
+        <img id="u1287_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1288" class="text">
+          <p><span>子订单5</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1289" class="ax_default label">
+        <img id="u1289_img" class="img " src="images/订单/u1289.png"/>
+        <!-- Unnamed () -->
+        <div id="u1290" class="text">
+          <p><span>商品</span><span>sku1</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1291" class="ax_default label">
+        <img id="u1291_img" class="img " src="images/订单/u1289.png"/>
+        <!-- Unnamed () -->
+        <div id="u1292" class="text">
+          <p><span>商品sku2</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1293" class="ax_default label">
+        <img id="u1293_img" class="img " src="images/订单/u1289.png"/>
+        <!-- Unnamed () -->
+        <div id="u1294" class="text">
+          <p><span>赠品sku3</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1295" class="ax_default label">
+        <img id="u1295_img" class="img " src="images/订单/u1295.png"/>
+        <!-- Unnamed () -->
+        <div id="u1296" class="text">
+          <p><span>补差价sku4</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1297" class="ax_default label">
+        <img id="u1297_img" class="img " src="images/订单/u1295.png"/>
+        <!-- Unnamed () -->
+        <div id="u1298" class="text">
+          <p><span>补运费sku5</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1299" class="ax_default _文本段落">
+        <img id="u1299_img" class="img " src="images/订单/u1299.png"/>
+        <!-- Unnamed () -->
+        <div id="u1300" class="text">
+          <p><span>按照</span><span>sku</span><span>将订单拆分成多笔子订单，只是补差价sku、补运费sku，发货的时候选择无需物流。</span></p><p><span>赠品sku的价格一般是0元，可以查看商品详情。</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1301" class="ax_default _连接符">
+        <img id="u1301_seg0" class="img " src="images/订单/u1301_seg0.png" alt="u1301_seg0"/>
+        <img id="u1301_seg1" class="img " src="images/注册/u223_seg1.png" alt="u1301_seg1"/>
+        <img id="u1301_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1301_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1302" class="text">
+          <p><span>买家付款成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1303" class="ax_default flow_shape">
+        <img id="u1303_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1304" class="text">
+          <p><span>退款中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1305" class="ax_default connector">
+        <img id="u1305_seg0" class="img " src="images/订单/u1305_seg0.png" alt="u1305_seg0"/>
+        <img id="u1305_seg1" class="img " src="images/注册/u223_seg1.png" alt="u1305_seg1"/>
+        <img id="u1305_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1305_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1306" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1307" class="ax_default flow_shape">
+        <img id="u1307_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1308" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退货中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1309" class="ax_default flow_shape">
+        <img id="u1309_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1310" class="text">
+          <p><span>…</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1311" class="ax_default label">
+        <img id="u1311_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1312" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1313" class="ax_default label">
+        <img id="u1313_img" class="img " src="images/订单/u1313.png"/>
+        <!-- Unnamed () -->
+        <div id="u1314" class="text">
+          <p><span>商品sku…</span></p>
+        </div>
+      </div>
+
+      <!-- 商品状态机 (矩形) -->
+      <div id="u1315" class="ax_default label" data-label="商品状态机">
+        <img id="u1315_img" class="img " src="images/商品/商品状态机_u979.png"/>
+        <!-- Unnamed () -->
+        <div id="u1316" class="text">
+          <p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单状态机</span></p>
+        </div>
+      </div>
+
+      <!-- 商品状态机 (矩形) [footnote] -->
+      <div id="u1315_ann" class="annotation"></div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1317" class="ax_default connector">
+        <img id="u1317_seg0" class="img " src="images/订单/u1317_seg0.png" alt="u1317_seg0"/>
+        <img id="u1317_seg1" class="img " src="images/订单/u1241_seg1.png" alt="u1317_seg1"/>
+        <img id="u1317_seg2" class="img " src="images/注册/u116_seg1.png" alt="u1317_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1318" class="text">
+          <p><span>买家申请退货</span></p>
+        </div>
+      </div>
+
+      <!-- 旧版订单金额构成 (动态面板) -->
+      <div id="u1319" class="ax_default" data-label="旧版订单金额构成">
+        <div id="u1319_state0" class="panel_state" data-label="State1" style="">
+          <div id="u1319_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1320" class="ax_default _流程形状">
+              <img id="u1320_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1321" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">sku1</span><span style="font-family:'ArialMT', 'Arial';">购买金额</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1322" class="ax_default _流程形状">
+              <img id="u1322_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1323" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">sku2</span><span style="font-family:'ArialMT', 'Arial';">购买金额</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1324" class="ax_default _流程形状">
+              <img id="u1324_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1325" class="text">
+                <p><span>运费</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1326" class="ax_default _流程形状">
+              <img id="u1326_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1327" class="text">
+                <p><span>税费</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1328" class="ax_default _流程形状">
+              <img id="u1328_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1329" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">打折</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1330" class="ax_default _流程形状">
+              <img id="u1330_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1331" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">活动</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1332" class="ax_default label">
+              <img id="u1332_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1333" class="text">
+                <p><span>+</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1334" class="ax_default label">
+              <img id="u1334_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1335" class="text">
+                <p><span>+</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1336" class="ax_default label">
+              <img id="u1336_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1337" class="text">
+                <p><span>+</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1338" class="ax_default label">
+              <img id="u1338_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1339" class="text">
+                <p><span>-</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1340" class="ax_default label">
+              <img id="u1340_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1341" class="text">
+                <p><span>-</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1342" class="ax_default _流程形状">
+              <img id="u1342_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1343" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">优惠券</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1344" class="ax_default label">
+              <img id="u1344_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1345" class="text">
+                <p><span>-</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1346" class="ax_default _流程形状">
+              <img id="u1346_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1347" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">积分</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1348" class="ax_default label">
+              <img id="u1348_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1349" class="text">
+                <p><span>-</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1350" class="ax_default _流程形状">
+              <img id="u1350_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1351" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">…</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1352" class="ax_default label">
+              <img id="u1352_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1353" class="text">
+                <p><span>-</span></p>
+              </div>
+            </div>
+
+            <!-- 订单金额 (矩形) -->
+            <div id="u1354" class="ax_default flow_shape" data-label="订单金额">
+              <img id="u1354_img" class="img " src="images/注册/u108.png"/>
+              <!-- Unnamed () -->
+              <div id="u1355" class="text">
+                <p><span style="font-family:'ArialMT', 'Arial';">订单金额</span></p>
+              </div>
+            </div>
+
+            <!-- 订单金额 (矩形) [footnote] -->
+            <div id="u1354_ann" class="annotation"></div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u1356" class="ax_default label">
+              <img id="u1356_img" class="img " src="images/订单/u1265.png"/>
+              <!-- Unnamed () -->
+              <div id="u1357" class="text">
+                <p><span>=</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1358" class="ax_default label">
+        <img id="u1358_img" class="img " src="images/商品/u1039.png"/>
+        <!-- Unnamed () -->
+        <div id="u1359" class="text">
+          <p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单的金额构成</span></p>
+        </div>
+      </div>
+
+      <!-- sku购买金额 (矩形) -->
+      <div id="u1360" class="ax_default flow_shape" data-label="sku购买金额">
+        <img id="u1360_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1361" class="text">
+          <p><span>sku1</span><span>金额</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1362" class="ax_default flow_shape">
+        <img id="u1362_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1363" class="text">
+          <p><span>sku2</span><span>金额</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1364" class="ax_default flow_shape">
+        <img id="u1364_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1365" class="text">
+          <p><span>运费</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1366" class="ax_default flow_shape">
+        <img id="u1366_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1367" class="text">
+          <p><span>税费</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1368" class="ax_default flow_shape">
+        <img id="u1368_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1369" class="text">
+          <p><span>活动</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1370" class="ax_default flow_shape">
+        <img id="u1370_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1371" class="text">
+          <p><span>优惠券</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1372" class="ax_default label">
+        <img id="u1372_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1373" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1374" class="ax_default label">
+        <img id="u1374_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1375" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1376" class="ax_default label">
+        <img id="u1376_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1377" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1378" class="ax_default _连接符">
+        <img id="u1378_seg0" class="img " src="images/订单/u1378_seg0.png" alt="u1378_seg0"/>
+        <img id="u1378_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1378_seg1"/>
+        <img id="u1378_seg2" class="img " src="images/订单/u1378_seg2.png" alt="u1378_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1379" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1380" class="ax_default _连接符">
+        <img id="u1380_seg0" class="img " src="images/订单/u1380_seg0.png" alt="u1380_seg0"/>
+        <img id="u1380_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1380_seg1"/>
+        <img id="u1380_seg2" class="img " src="images/订单/u1380_seg2.png" alt="u1380_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1381" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1382" class="ax_default _连接符">
+        <img id="u1382_seg0" class="img " src="images/订单/u1380_seg0.png" alt="u1382_seg0"/>
+        <img id="u1382_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1382_seg1"/>
+        <img id="u1382_seg2" class="img " src="images/订单/u1382_seg2.png" alt="u1382_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1383" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1384" class="ax_default _连接符">
+        <img id="u1384_seg0" class="img " src="images/订单/u1384_seg0.png" alt="u1384_seg0"/>
+        <img id="u1384_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1384_seg1"/>
+        <img id="u1384_seg2" class="img " src="images/订单/u1384_seg2.png" alt="u1384_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1385" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1386" class="ax_default _连接符">
+        <img id="u1386_seg0" class="img " src="images/订单/u1386_seg0.png" alt="u1386_seg0"/>
+        <img id="u1386_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1386_seg1"/>
+        <img id="u1386_seg2" class="img " src="images/订单/u1386_seg2.png" alt="u1386_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1387" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1388" class="ax_default _连接符">
+        <img id="u1388_seg0" class="img " src="images/订单/u1388_seg0.png" alt="u1388_seg0"/>
+        <img id="u1388_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1388_seg1"/>
+        <img id="u1388_seg2" class="img " src="images/订单/u1388_seg2.png" alt="u1388_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1389" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1390" class="ax_default _连接符">
+        <img id="u1390_seg0" class="img " src="images/订单/u1390_seg0.png" alt="u1390_seg0"/>
+        <img id="u1390_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1390_seg1"/>
+        <img id="u1390_seg2" class="img " src="images/订单/u1390_seg2.png" alt="u1390_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1391" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1392" class="ax_default _连接符">
+        <img id="u1392_seg0" class="img " src="images/订单/u1392_seg0.png" alt="u1392_seg0"/>
+        <img id="u1392_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1392_seg1"/>
+        <img id="u1392_seg2" class="img " src="images/订单/u1392_seg2.png" alt="u1392_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1393" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1394" class="ax_default flow_shape">
+        <img id="u1394_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1395" class="text">
+          <p><span>打折</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1396" class="ax_default _连接符">
+        <img id="u1396_seg0" class="img " src="images/订单/u1396_seg0.png" alt="u1396_seg0"/>
+        <img id="u1396_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1396_seg1"/>
+        <img id="u1396_seg2" class="img " src="images/订单/u1396_seg2.png" alt="u1396_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1397" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1398" class="ax_default _连接符">
+        <img id="u1398_seg0" class="img " src="images/订单/u1398_seg0.png" alt="u1398_seg0"/>
+        <img id="u1398_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1398_seg1"/>
+        <img id="u1398_seg2" class="img " src="images/订单/u1398_seg2.png" alt="u1398_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1399" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1400" class="ax_default flow_shape">
+        <img id="u1400_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1401" class="text">
+          <p><span>积分</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1402" class="ax_default label">
+        <img id="u1402_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1403" class="text">
+          <p><span>-</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1404" class="ax_default flow_shape">
+        <img id="u1404_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1405" class="text">
+          <p><span>sku…金额</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1406" class="ax_default label">
+        <img id="u1406_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1407" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- 订单金额 (矩形) -->
+      <div id="u1408" class="ax_default flow_shape" data-label="订单金额">
+        <img id="u1408_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1409" class="text">
+          <p><span>订单金额</span></p>
+        </div>
+      </div>
+
+      <!-- 订单金额 (矩形) [footnote] -->
+      <div id="u1408_ann" class="annotation"></div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1410" class="ax_default label">
+        <img id="u1410_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1411" class="text">
+          <p><span>=</span></p>
+        </div>
+      </div>
+
+      <!-- 赠品 (矩形) -->
+      <div id="u1412" class="ax_default flow_shape" data-label="赠品">
+        <img id="u1412_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1413" class="text">
+          <p><span>赠品</span></p>
+        </div>
+      </div>
+
+      <!-- 赠品 (矩形) [footnote] -->
+      <div id="u1412_ann" class="annotation"></div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1414" class="ax_default label">
+        <img id="u1414_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1415" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1416" class="ax_default connector">
+        <img id="u1416_seg0" class="img " src="images/订单/u1378_seg0.png" alt="u1416_seg0"/>
+        <img id="u1416_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1416_seg1"/>
+        <img id="u1416_seg2" class="img " src="images/订单/u1416_seg2.png" alt="u1416_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1417" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1418" class="ax_default connector">
+        <img id="u1418_seg0" class="img " src="images/订单/u1418_seg0.png" alt="u1418_seg0"/>
+        <img id="u1418_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1418_seg1"/>
+        <img id="u1418_seg2" class="img " src="images/订单/u1418_seg2.png" alt="u1418_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1419" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1420" class="ax_default flow_shape">
+        <img id="u1420_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1421" class="text">
+          <p><span>…</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1422" class="ax_default label">
+        <img id="u1422_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1423" class="text">
+          <p><span>-</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1424" class="ax_default _连接符">
+        <img id="u1424_seg0" class="img " src="images/订单/u1424_seg0.png" alt="u1424_seg0"/>
+        <img id="u1424_seg1" class="img " src="images/架构/u767_seg1.png" alt="u1424_seg1"/>
+        <img id="u1424_seg2" class="img " src="images/订单/u1424_seg2.png" alt="u1424_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1425" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1426" class="ax_default _连接符">
+        <img id="u1426_seg0" class="img " src="images/订单/u1426_seg0.png" alt="u1426_seg0"/>
+        <img id="u1426_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1426_seg1"/>
+        <img id="u1426_seg2" class="img " src="images/打开首页/u387_seg2.png" alt="u1426_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1427" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1428" class="ax_default _连接符">
+        <img id="u1428_seg0" class="img " src="images/订单/u1428_seg0.png" alt="u1428_seg0"/>
+        <img id="u1428_seg1" class="img " src="images/架构/u741_seg2.png" alt="u1428_seg1"/>
+        <img id="u1428_seg2" class="img " src="images/订单/u1428_seg2.png" alt="u1428_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1429" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1430" class="ax_default label">
+        <img id="u1430_img" class="img " src="images/商品/u1039.png"/>
+        <!-- Unnamed () -->
+        <div id="u1431" class="text">
+          <p><span style="font-family:'Arial-BoldMT', 'Arial Bold', 'Arial';font-weight:700;">订单的物理拆分</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) -->
+      <div id="u1432" class="ax_default flow_shape" data-label="订单">
+        <img id="u1432_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1433" class="text">
+          <p><span>临时订单</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) [footnote] -->
+      <div id="u1432_ann" class="annotation"></div>
+
+      <!-- 订单 (矩形) -->
+      <div id="u1434" class="ax_default flow_shape" data-label="订单">
+        <img id="u1434_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1435" class="text">
+          <p><span>仓库1订单</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) [footnote] -->
+      <div id="u1434_ann" class="annotation"></div>
+
+      <!-- 订单 (矩形) -->
+      <div id="u1436" class="ax_default flow_shape" data-label="订单">
+        <img id="u1436_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1437" class="text">
+          <p><span>仓库2订单</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) [footnote] -->
+      <div id="u1436_ann" class="annotation"></div>
+
+      <!-- 订单 (矩形) -->
+      <div id="u1438" class="ax_default flow_shape" data-label="订单">
+        <img id="u1438_img" class="img " src="images/注册/u108.png"/>
+        <!-- Unnamed () -->
+        <div id="u1439" class="text">
+          <p><span>仓库…订单</span></p>
+        </div>
+      </div>
+
+      <!-- 订单 (矩形) [footnote] -->
+      <div id="u1438_ann" class="annotation"></div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1440" class="ax_default label">
+        <img id="u1440_img" class="img " src="images/订单/u1440.png"/>
+        <!-- Unnamed () -->
+        <div id="u1441" class="text">
+          <p><span>=</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1442" class="ax_default label">
+        <img id="u1442_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1443" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1444" class="ax_default label">
+        <img id="u1444_img" class="img " src="images/订单/u1265.png"/>
+        <!-- Unnamed () -->
+        <div id="u1445" class="text">
+          <p><span>+</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1446" class="ax_default _文本段落">
+        <img id="u1446_img" class="img " src="images/订单/u1446.png"/>
+        <!-- Unnamed () -->
+        <div id="u1447" class="text">
+          <p><span>当服务端检测到提交过来的订单含有多个仓库的商品，按照仓库拆分成多个订单。</span></p><p><span>拆分的时机有2种：</span></p><p><span>&#149; 生成临时订单就立即拆分，这样的开发工作量最小。</span></p><p><span>&#149; 付款成功之后再拆分，极大的减少了付款流失可能性。(京东是这种)</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (椭圆形) -->
+      <div id="u1448" class="ax_default ellipse2">
+        <img id="u1448_img" class="img " src="images/订单/u1448.png"/>
+        <!-- Unnamed () -->
+        <div id="u1449" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (椭圆形) -->
+      <div id="u1450" class="ax_default ellipse2">
+        <img id="u1450_img" class="img " src="images/订单/u1450.png"/>
+        <!-- Unnamed () -->
+        <div id="u1451" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1452" class="ax_default connector">
+        <img id="u1452_seg0" class="img " src="images/打开首页/u355_seg0.png" alt="u1452_seg0"/>
+        <img id="u1452_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1452_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1453" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1454" class="ax_default connector">
+        <img id="u1454_seg0" class="img " src="images/订单/u1454_seg0.png" alt="u1454_seg0"/>
+        <img id="u1454_seg1" class="img " src="images/订单/u1454_seg1.png" alt="u1454_seg1"/>
+        <img id="u1454_seg2" class="img " src="images/商品/u905_seg2.png" alt="u1454_seg2"/>
+        <img id="u1454_seg3" class="img " src="images/商品/u905_seg3.png" alt="u1454_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1455" class="text" style="display:none; visibility: hidden">
+          <p><span></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (菱形) -->
+      <div id="u1456" class="ax_default flow_shape">
+        <img id="u1456_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1457" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">款项是否全退</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1458" class="ax_default connector">
+        <img id="u1458_seg0" class="img " src="images/订单/u1458_seg0.png" alt="u1458_seg0"/>
+        <img id="u1458_seg1" class="img " src="images/订单/u1458_seg1.png" alt="u1458_seg1"/>
+        <img id="u1458_seg2" class="img " src="images/订单/u1458_seg2.png" alt="u1458_seg2"/>
+        <img id="u1458_seg3" class="img " src="images/订单/u1458_seg3.png" alt="u1458_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1459" class="text">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (菱形) -->
+      <div id="u1460" class="ax_default flow_shape">
+        <img id="u1460_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1461" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">sku是否全退</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1462" class="ax_default connector">
+        <img id="u1462_seg0" class="img " src="images/注册/u116_seg0.png" alt="u1462_seg0"/>
+        <img id="u1462_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1462_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1463" class="text">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1464" class="ax_default connector">
+        <img id="u1464_seg0" class="img " src="images/订单/u1464_seg0.png" alt="u1464_seg0"/>
+        <img id="u1464_seg1" class="img " src="images/订单/u1464_seg1.png" alt="u1464_seg1"/>
+        <img id="u1464_seg2" class="img " src="images/打开首页/u387_seg2.png" alt="u1464_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1465" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1466" class="ax_default connector">
+        <img id="u1466_seg0" class="img " src="images/订单/u1466_seg0.png" alt="u1466_seg0"/>
+        <img id="u1466_seg1" class="img " src="images/订单/u1466_seg1.png" alt="u1466_seg1"/>
+        <img id="u1466_seg2" class="img " src="images/订单/u1466_seg2.png" alt="u1466_seg2"/>
+        <img id="u1466_seg3" class="img " src="images/订单/u1466_seg3.png" alt="u1466_seg3"/>
+        <img id="u1466_seg4" class="img " src="images/打开首页/u387_seg2.png" alt="u1466_seg4"/>
+        <!-- Unnamed () -->
+        <div id="u1467" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1468" class="ax_default flow_shape">
+        <img id="u1468_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1469" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退款失败</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u1470" class="ax_default flow_shape">
+        <img id="u1470_img" class="img " src="images/注册/u169.png"/>
+        <!-- Unnamed () -->
+        <div id="u1471" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">退款成功</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1472" class="ax_default connector">
+        <img id="u1472_seg0" class="img " src="images/打开首页/u355_seg0.png" alt="u1472_seg0"/>
+        <img id="u1472_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1472_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1473" class="text" style="display:none; visibility: hidden">
+          <p><span style="font-family:'ArialMT', 'Arial';"></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1474" class="ax_default connector">
+        <img id="u1474_seg0" class="img " src="images/订单/u1474_seg0.png" alt="u1474_seg0"/>
+        <img id="u1474_seg1" class="img " src="images/订单/u1474_seg1.png" alt="u1474_seg1"/>
+        <img id="u1474_seg2" class="img " src="images/订单/u1474_seg2.png" alt="u1474_seg2"/>
+        <img id="u1474_seg3" class="img " src="images/订单/u1474_seg3.png" alt="u1474_seg3"/>
+        <img id="u1474_seg4" class="img " src="images/打开首页/u387_seg2.png" alt="u1474_seg4"/>
+        <!-- Unnamed () -->
+        <div id="u1475" class="text" style="display:none; visibility: hidden">
+          <p><span style="font-family:'ArialMT', 'Arial';"></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1476" class="ax_default connector">
+        <img id="u1476_seg0" class="img " src="images/订单/u1476_seg0.png" alt="u1476_seg0"/>
+        <img id="u1476_seg1" class="img " src="images/订单/u1476_seg1.png" alt="u1476_seg1"/>
+        <img id="u1476_seg2" class="img " src="images/订单/u1476_seg2.png" alt="u1476_seg2"/>
+        <img id="u1476_seg3" class="img " src="images/打开首页/u387_seg2.png" alt="u1476_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1477" class="text" style="display:none; visibility: hidden">
+          <p><span style="font-family:'ArialMT', 'Arial';"></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (菱形) -->
+      <div id="u1478" class="ax_default flow_shape">
+        <img id="u1478_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1479" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">款项是否全退</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (菱形) -->
+      <div id="u1480" class="ax_default flow_shape">
+        <img id="u1480_img" class="img " src="images/注册/u110.png"/>
+        <!-- Unnamed () -->
+        <div id="u1481" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">sku是否全退</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1482" class="ax_default connector">
+        <img id="u1482_seg0" class="img " src="images/打开首页/u355_seg0.png" alt="u1482_seg0"/>
+        <img id="u1482_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1482_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1483" class="text" style="display:none; visibility: hidden">
+          <p><span style="font-family:'ArialMT', 'Arial';"></span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1484" class="ax_default connector">
+        <img id="u1484_seg0" class="img " src="images/订单/u1484_seg0.png" alt="u1484_seg0"/>
+        <img id="u1484_seg1" class="img " src="images/订单/u1484_seg1.png" alt="u1484_seg1"/>
+        <img id="u1484_seg2" class="img " src="images/订单/u1484_seg2.png" alt="u1484_seg2"/>
+        <img id="u1484_seg3" class="img " src="images/注册/u114_seg1.png" alt="u1484_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1485" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1486" class="ax_default connector">
+        <img id="u1486_seg0" class="img " src="images/订单/u1486_seg0.png" alt="u1486_seg0"/>
+        <img id="u1486_seg1" class="img " src="images/注册/u116_seg1.png" alt="u1486_seg1"/>
+        <!-- Unnamed () -->
+        <div id="u1487" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1488" class="ax_default connector">
+        <img id="u1488_seg0" class="img " src="images/订单/u1488_seg0.png" alt="u1488_seg0"/>
+        <img id="u1488_seg1" class="img " src="images/订单/u1488_seg1.png" alt="u1488_seg1"/>
+        <img id="u1488_seg2" class="img " src="images/订单/u1488_seg2.png" alt="u1488_seg2"/>
+        <img id="u1488_seg3" class="img " src="images/订单/u1488_seg3.png" alt="u1488_seg3"/>
+        <!-- Unnamed () -->
+        <div id="u1489" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (连接线) -->
+      <div id="u1490" class="ax_default connector">
+        <img id="u1490_seg0" class="img " src="images/订单/u1490_seg0.png" alt="u1490_seg0"/>
+        <img id="u1490_seg1" class="img " src="images/订单/u1490_seg1.png" alt="u1490_seg1"/>
+        <img id="u1490_seg2" class="img " src="images/打开首页/u387_seg2.png" alt="u1490_seg2"/>
+        <!-- Unnamed () -->
+        <div id="u1491" class="text">
+          <p><span style="font-family:'ArialMT', 'Arial';">是</span></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
